@@ -23,9 +23,11 @@ def get_data():
     return res
 
 def format_data(res):
+    import time
+    
     data = {}
     location = res['location']
-    # data['id'] = uuid.uuid4()
+    data['id'] = time.time()
     data['first_name'] = res['name']['first']
     data['last_name'] = res['name']['last']
     data['gender'] = res['gender']
@@ -49,22 +51,22 @@ def stream_data():
 
     producer = KafkaProducer(bootstrap_servers=['broker:29092'], max_block_ms=5000)
 
-    # curr_time = time.time()
-    # while True:
-    #     if time.time() > curr_time + 60: #1 minute
-    #         break
-    #     try:
-    #         res = get_data()
-    #         res = format_data(res)
+    curr_time = time.time()
+    while True:
+        if time.time() > curr_time + 60: #1 minute
+            break
+        try:
+            res = get_data()
+            res = format_data(res)
 
-    #         producer.send('users_created', json.dumps(res).encode('utf-8'))
-    #     except Exception as e:
-    #         logging.error(f'An error occured: {e}')
-    #         continue
+            producer.send('users_created', json.dumps(res).encode('utf-8'))
+        except Exception as e:
+            logging.error(f'An error occured: {e}')
+            continue
 
-    res = get_data()
-    res = format_data(res)
-    producer.send('users_created', json.dumps(res).encode('utf-8'))
+    # res = get_data()
+    # res = format_data(res)
+    # producer.send('users_created', json.dumps(res).encode('utf-8'))
 
 with DAG('kafka_stream',
          default_args=default_args,
