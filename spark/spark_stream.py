@@ -17,18 +17,15 @@ def create_keyspace(session):
 
 def create_table(session):
     session.execute("""
-    CREATE TABLE IF NOT EXISTS spark_streams.created_users (
+    CREATE TABLE IF NOT EXISTS spark_streams.job_information (
         id TEXT PRIMARY KEY,
-        first_name TEXT,
-        last_name TEXT,
-        gender TEXT,
-        address TEXT,
-        post_code TEXT,
-        email TEXT,
-        username TEXT,
-        registered_date TEXT,
-        phone TEXT,
-        picture TEXT);
+        name TEXT,
+        tags TEXT,
+        description TEXT,
+        yeu_cau_cong_viec TEXT,
+        quyen_loi TEXT,
+        dia_diem_lam_viec TEXT,
+        cach_thuc_ung_tuyen TEXT);
     """)
 
     print("Table created successfully!")
@@ -37,27 +34,23 @@ def create_table(session):
 def insert_data(session, **kwargs):
     print("inserting data...")
 
-    user_id = kwargs.get('id')
-    first_name = kwargs.get('first_name')
-    last_name = kwargs.get('last_name')
-    gender = kwargs.get('gender')
-    address = kwargs.get('address')
-    postcode = kwargs.get('post_code')
-    email = kwargs.get('email')
-    username = kwargs.get('username')
-    dob = kwargs.get('dob')
-    registered_date = kwargs.get('registered_date')
-    phone = kwargs.get('phone')
-    picture = kwargs.get('picture')
+    id = kwargs.get('id')
+    name = kwargs.get('name')
+    tags = kwargs.get('tags')
+    description = kwargs.get('description')
+    yeu_cau_cong_viec = kwargs.get('yeu_cau_cong_viec')
+    quyen_loi = kwargs.get('quyen_loi')
+    dia_diem_lam_viec = kwargs.get('dia_diem_lam_viec')
+    cach_thuc_ung_tuyen = kwargs.get('cach_thuc_ung_tuyen')
 
     try:
         session.execute("""
-            INSERT INTO spark_streams.created_users(id, first_name, last_name, gender, address, 
-                post_code, email, username, dob, registered_date, phone, picture)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (user_id, first_name, last_name, gender, address,
-              postcode, email, username, dob, registered_date, phone, picture))
-        logging.info(f"Data inserted for {first_name} {last_name}")
+            INSERT INTO spark_streams.job_information(id, name, tags, description, yeu_cau_cong_viec, 
+                quyen_loi, dia_diem_lam_viec, cach_thuc_ung_tuyen)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """, (id, name, tags, description, yeu_cau_cong_viec,
+              quyen_loi, dia_diem_lam_viec, cach_thuc_ung_tuyen))
+        logging.info(f"Data inserted for {id} {name}")
 
     except Exception as e:
         logging.error(f'could not insert data due to {e}')
@@ -113,16 +106,13 @@ def create_cassandra_connection():
 def create_selection_df_from_kafka(spark_df):
     schema = StructType([
         StructField("id", StringType(), False),
-        StructField("first_name", StringType(), False),
-        StructField("last_name", StringType(), False),
-        StructField("gender", StringType(), False),
-        StructField("address", StringType(), False),
-        StructField("post_code", StringType(), False),
-        StructField("email", StringType(), False),
-        StructField("username", StringType(), False),
-        StructField("registered_date", StringType(), False),
-        StructField("phone", StringType(), False),
-        StructField("picture", StringType(), False)
+        StructField("name", StringType(), False),
+        StructField("tags", StringType(), False),
+        StructField("description", StringType(), False),
+        StructField("yeu_cau_cong_viec", StringType(), False),
+        StructField("quyen_loi", StringType(), False),
+        StructField("dia_diem_lam_viec", StringType(), False),
+        StructField("cach_thuc_ung_tuyen", StringType(), False),
     ])
 
     sel = spark_df.selectExpr("CAST(value AS STRING)") \
