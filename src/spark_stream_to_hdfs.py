@@ -43,15 +43,10 @@ def create_selection_df_from_kafka(spark_df):
     schema = StructType([
         StructField("id", StringType(), False),
         StructField("name", StringType(), False),
-        # StructField("tags", StringType(), False),
         StructField("mo_ta_cong_viec", StringType(), False),
         StructField("yeu_cau_cong_viec", StringType(), False),
         StructField("quyen_loi", StringType(), False),
-        StructField("cach_thuc_ung_tuyen", StringType(), False),
-        # StructField("", StringType(), False),
-        # StructField("", StringType(), False),
-        # StructField("", StringType(), False),
-        # StructField("", StringType(), False)
+        StructField("cach_thuc_ung_tuyen", StringType(), False)
     ])
 
     sel = spark_df.selectExpr("CAST(value AS STRING)") \
