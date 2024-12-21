@@ -482,7 +482,7 @@ services:
       - "SPARK_MASTER=spark://spark-master:7077"
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
       - "SPARK_WORKER_CORES=1"  # Thay đổi số core
-      - "SPARK_WORKER_MEMORY=0.5g"  # Thay đổi dung lượng RAM
+      - "SPARK_WORKER_MEMORY=1g"  # Thay đổi dung lượng RAM
     networks:
       - confluent
 

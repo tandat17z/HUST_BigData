@@ -77,15 +77,13 @@ def add_contents(contents, data):
 
 def get_data():
     data = {
-        'id': time.time(),
-        "name": "Công ty TNHH Tap Hospitality Vietnam",
-        "tags": "Chuyên môn: Software Engineer",
-        "description": "•\tTham gia phát triển phần mềm cho các Tập đoàn khách sạn, resort hàng đầu tại Nhật Bản. •\tTeamwork, họp bàn, phát triển sản phẩm cùng với đội ngũ phía Nhật Bản. •\tMaintain code hiện tại và phát triển các chức năng mới. •\tBáo cáo công việc với cấp trên.",
-        "yeu_cau_cong_viec": "1- Với lập trình viên Java: •\tNắm vững kiến thức lập trình Java căn bản: Java core, OOP... •\tCó kinh nghiệm lập trình Angular. •\tThành thạo các hệ quản trị cơ sở dữ liệu: PostgreSQL, IBM DB2... •\tTiếng Anh đọc hiểu cơ bản. 2- Với lập trình viên VueJs/Angular: •\tTừ một năm kinh nghiệm lập trình VueJs/Angular •\tThuần thục CSS/SCSS, HTML, Javascript, TypeScript •\tCó kinh nghiệm về UX, UI, State Management, Functional Programming là một lợi thế. •\tCó kinh nghiệm làm việc với Web Application, API, DataBase. •\tHiểu rõ authentication, RESTful API, Git, Virtual Machine và quy trình phát triển phần mềm •\tCó kiến thức cơ bản, kinh nghiệm về các dịch vụ AWS, Microservices, Docker, Kubernetes và cơ sở hạ tầng đám mây (Cloud Infrastructure) 3- Với lập trình viên C# •\tCó ít nhất 1 năm kinh nghiệm lập trình với C#.Net (Winform,...) •\tThành thạo PostgreSQL, ưu tiên ứng viên có hiểu biết và kinh nghiệm với IBM DB2 và SQL Server •\tCó hiểu biết về VB6, VB.Net là lợi thế •\tBiết tiếng Nhật là 1 lợi thế",
-        "quyen_loi": "Thời gian làm việc: Từ thứ 2 đến thứ 6, nghỉ Thứ 7 & Chủ Nhật. Đặc biệt bạn có thể tự chủ động giờ bắt đầu làm việc (đến trước 9h sáng), đến sớm về sớm. Miễn đảm bảo đủ 8 tiếng/ngày và tiến độ dự án. Kết hợp linh hoạt giữa làm tại văn phòng và remote Mức lương cạnh tranh (tùy theo kỹ năng và kinh nghiệm) Review tăng lương  hàng năm Thưởng Tết, thưởng dự án Thưởng các ngày lễ: Tết Nguyên Đán, quà sinh nhật, Trung thu, 30/4, 2/9, 8/3, 20/10... Trợ cấp ăn trưa, cung cấp cung cấp trà, cà phê, trợ cấp đi lại, trợ cấp ngoại ngữ v.v.. Thanh toán OT theo quy định của luật lao động Có cơ hội đi onsite tại Tokyo hoặc Okinawa ngắn và dài hạn Bảo hiểm full lương Ngày phép: 12 ngày/năm và tăng dần theo thời gian làm việc Du lịch công ty hàng năm Khám sức khỏe định kỳ 01 lần/năm tại BV Quốc tế Hoạt động giải trí và Team Building phong phú (Câu lạc bộ bóng đá, chạy bộ, đạp xe, PES...)",
-        "dia_diem_lam_viec": "- Hà Nội: Tầng 10 Toà nhà CMC, 11 Phố Duy Tân, Dịch Vọng Hậu, Cầu Giấy",
-        "cach_thuc_ung_tuyen": "Ứng viên nộp hồ sơ trực tuyến bằng cách bấm Ứng tuyển ngay dưới đây."
-        }
+        "id": time.time(),
+        "name": "Công ty Cổ phần S.I.S Việt Nam",
+        "mo_ta_cong_viec": "Lập trình viên :· Trực tiếp tham gia vào các dự án phát triển sản phẩm CRM, ERP… của Công ty trên nền tảng C#, MVC 5, ASP.NET, Winform· Tham gia làm rõ nghiệp vụ, thiết kế giải pháp, phát triển nâng cấp hệ thống theo yêu cầu· Tham gia review thiết kế, review code, tối ưu hệ thống đáp ứng lưu lượng truy cập cao· Nghiên cứu áp dụng công nghệ mới nâng cao chất lượng, tối ưu nguồn lực phát triểnKĩ thuật bảo hành phần mềm· Hỗ trợ, xử lý kĩ thuật cho khách hàng trong quá trình sử dụng phần mềm do SISVN cung cấp· Tư vấn các giải pháp để khách hàng sử dụng phần mềm một cách tối ưu và hiệu quả nhất",
+        "yeu_cau_cong_viec": "· Tốt nghiệp chuyên ngành CNTT· Ưu tiên ứng viên có hiểu biết về kế toán và quản trị doanh nghiệp",
+        "quyen_loi": "· Lương cứng (12 - 18 triệu) + % thưởng theo dự án· Thưởng quý cao theo hiệu quả công việc· Được làm việc trong môi trường nhiều thử thách, chuyên nghiệp nhưng hòa đồng, có cơ hội được đào tạo nâng cao nghiệp vụ chuyên môn thường xuyên, đặc biệt là chuyên ngành công nghệ và kế toán· Được tham gia các dự án lớn, quy mô, ở nhiều tỉnh/ thành phố tại Việt Nam· Chế độ BHXH theo QĐ của nhà nước · Nghỉ phép năm 12 ngày/năm và lễ tết theo quy định của Công ty.· Các chế độ du lịch, team building hàng năm, văn hóa thể thao theo quy định công ty",
+        "cach_thuc_ung_tuyen": "Ứng viên nộp hồ sơ trực tuyến bằng cách bấmỨng tuyển ngaydưới đây.ỨNG TUYỂN NGAYLƯU TINHạn nộp hồ sơ: 08/08/2022"
+    }
     return data
     # while True:
     #     response_news = requests.get(link, headers = headers)
@@ -151,8 +149,8 @@ def stream_data():
         try:
             res = get_data()
 
-            producer.send('job_information', json.dumps(res).encode('utf-8'))
-            time.sleep(15)
+            producer.send('job_information_1', json.dumps(res).encode('utf-8'))
+            time.sleep(5)
         except Exception as e:
             print(f'An error occured: {e}')
 
@@ -160,7 +158,7 @@ def stream_data():
     # res = format_data(res)
     # producer.send('users_created', json.dumps(res).encode('utf-8'))
 
-with DAG('kafka_stream_job_data_1',
+with DAG('kafka_stream_topic_1',
          default_args=default_args,
          description = "This is kafka stream task.",
          schedule_interval='@daily',
