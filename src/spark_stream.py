@@ -95,7 +95,7 @@ def connect_to_kafka(spark_conn):
         spark_df = spark_conn.readStream \
             .format('kafka') \
             .option('kafka.bootstrap.servers', 'broker:29092') \
-            .option('subscribe', 'job_information_1') \
+            .option('subscribe', 'recruitment_information') \
             .load()
         logging.info("kafka dataframe created successfully")
     except Exception as e:
@@ -135,9 +135,10 @@ def create_selection_df_from_kafka(spark_df):
 
 def transform_data(df_raw):
     # return df_raw
-    extracted_recruit_df = df_raw.select(
-            df_raw['id'],
-            df_raw["name"].alias("company_name"),
+    df = df_raw.dropna()
+    extracted_recruit_df = df.select(
+            df['id'],
+            df["name"].alias("company_name"),
             udfs.extract_framework_plattform("mo_ta_cong_viec","yeu_cau_cong_viec").alias("framework_platforms"),
             udfs.extract_language("mo_ta_cong_viec","yeu_cau_cong_viec").alias("languages"),
             udfs.extract_design_pattern("mo_ta_cong_viec","yeu_cau_cong_viec").alias("design_patterns"),

@@ -28,7 +28,7 @@ def connect_to_kafka(spark_conn):
         spark_df = spark_conn.readStream \
             .format('kafka') \
             .option('kafka.bootstrap.servers', 'broker:29092') \
-            .option('subscribe', 'job_information_1') \
+            .option('subscribe', 'recruitment_information') \
             .load()
         logging.info("kafka dataframe created successfully")
     except Exception as e:
