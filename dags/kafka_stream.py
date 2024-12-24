@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 
 TIME_SLEEP = 5
-TIME_STREAM = 55
+TIME_STREAM = 50
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
@@ -171,7 +171,7 @@ def stream_data():
 with DAG('stream_recruitment_information',
          default_args=default_args,
          description = "This is kafka stream task.",
-         schedule_interval='* * * * *',
+         schedule_interval='@daily',
          catchup=False) as dag:
 
     streaming_task = PythonOperator(

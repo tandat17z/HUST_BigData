@@ -9,8 +9,9 @@ def create_spark_connection():
 
     try:
         s_conn = SparkSession.builder \
-            .appName('SparkDataStreaming') \
+            .appName('SparkStreamToHDFS') \
             .master("spark://spark-master:7077")\
+            .config('spark.jars.packages', "org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0")\
             .config("spark.hadoop.fs.defaultFS", "hdfs://namenode:9000") \
             .getOrCreate()
         
@@ -73,19 +74,5 @@ if __name__ == "__main__":
                                 .start())
             streaming_query.awaitTermination()
             
-            # session = create_cassandra_connection()
-
-            # if session is not None:
-            #     create_keyspace(session)
-            #     create_table(session)
-
-            #     logging.info("Streaming is being started...")
-
-            #     insert_data(session)
-            #     streaming_query = (selection_df.writeStream.format("org.apache.spark.sql.cassandra")
-            #                     .option('checkpointLocation', '/tmp/checkpoint')
-            #                     .option('keyspace', 'spark_streams')
-            #                     .option('table', 'created_users')
-            #                     .start())
         else:
             print("ERROR: spard_df")

@@ -28,6 +28,7 @@ def create_spark_connection():
         s_conn = SparkSession.builder \
             .appName('Spark_transformation') \
             .master("spark://spark-master:7077")\
+            .config('spark.jars.packages', "org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0")\
             .config("spark.hadoop.fs.defaultFS", "hdfs://namenode:9000") \
             .getOrCreate()
         
@@ -60,31 +61,3 @@ if __name__ == "__main__":
             .format("json")\
             .mode("overwrite")\
             .save("hdfs://namenode:9000/data/extracted_data/recruit.json")
-        
-    # ##========make some query==========================================
-    # knowledge_df = queries.get_counted_knowledge(extracted_recruit_df)
-    # knowledge_df.cache()
-    # # knowledge_df.show(5)
-
-    # udfs.broadcast_labeled_knowledges(sc,patterns.labeled_knowledges)
-    # grouped_knowledge_df = queries.get_grouped_knowledge(knowledge_df)
-    # grouped_knowledge_df.cache()
-    # # grouped_knowledge_df.show()
-
-    # #extracted_recruit_df = extracted_recruit_df.drop("Knowledges")
-    # #extracted_recruit_df.cache()
-
-    # ##========save some df to elasticsearch========================
-    # df_to_elasticsearch=(
-    #                      extracted_recruit_df,
-    #                     knowledge_df,
-    #                      grouped_knowledge_df
-    #                      )
-    
-    # df_es_indices = (
-    #                  "recruit",
-    #                "knowledges",
-    #                  "grouped_knowledges"
-    #                  )
-    # # extracted_recruit_df.show(5)
-    # io_cluster.save_dataframes_to_elasticsearch(df_to_elasticsearch,df_es_indices,app_config.get_elasticsearch_conf())

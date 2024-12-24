@@ -360,108 +360,108 @@ services:
     networks:
       - confluent
   
-  cassandra_db:
-    image: cassandra:latest
-    container_name: cassandra
-    hostname: cassandra
+  # cassandra_db:
+  #   image: cassandra:latest
+  #   container_name: cassandra
+  #   hostname: cassandra
+  #   ports:
+  #     - "9042:9042"
+  #   environment:
+  #     - MAX_HEAP_SIZE=512M
+  #     - HEAP_NEWSIZE=100M
+  #     - CASSANDRA_USERNAME=cassandra
+  #     - CASSANDRA_PASSWORD=cassandra
+  #   networks:
+  #     - confluent
+
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    hostname: namenode
     ports:
-      - "9042:9042"
+      - 9870:9870
+      - 9000:9000
     environment:
-      - MAX_HEAP_SIZE=512M
-      - HEAP_NEWSIZE=100M
-      - CASSANDRA_USERNAME=cassandra
-      - CASSANDRA_PASSWORD=cassandra
+      - CLUSTER_NAME=stock
+    env_file:
+      - ./hadoop/hadoop.env
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - ../storage/hadoop/namenode:/hadoop/dfs/name
     networks:
       - confluent
 
-  # namenode:
-  #   image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
-  #   container_name: namenode
-  #   hostname: namenode
-  #   ports:
-  #     - 9870:9870
-  #     - 9000:9000
-  #   environment:
-  #     - CLUSTER_NAME=stock
-  #   env_file:
-  #     - ./hadoop/hadoop.env
-  #   deploy:
-  #     mode: replicated
-  #     replicas: 1
-  #     restart_policy:
-  #       condition: on-failure
-  #   volumes:
-  #     - ../storage/hadoop/namenode:/hadoop/dfs/name
-  #   networks:
-  #     - confluent
+  datanode-1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode-1
+    hostname: datanode-1
+    ports:
+      - 9864:9864
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+    env_file:
+      - ./hadoop/hadoop.env
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+    volumes:
+    - ../storage/hadoop/datanode-1:/hadoop/dfs/data
+    networks:
+      - confluent
 
-  # datanode-1:
-  #   image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
-  #   container_name: datanode-1
-  #   hostname: datanode-1
-  #   ports:
-  #     - 9864:9864
-  #   environment:
-  #     - SERVICE_PRECONDITION=namenode:9870
-  #   env_file:
-  #     - ./hadoop/hadoop.env
-  #   deploy:
-  #     mode: global
-  #     restart_policy:
-  #       condition: on-failure
-  #   volumes:
-  #   - ../storage/hadoop/datanode-1:/hadoop/dfs/data
-  #   networks:
-  #     - confluent
+  datanode-2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode-2
+    hostname: datanode-2
+    ports:
+      - 50075:9864
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+    env_file:
+      - ./hadoop/hadoop.env
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+    volumes:
+    - ../storage/hadoop/datanode-2:/hadoop/dfs/data
+    networks:
+      - confluent
 
-  # datanode-2:
-  #   image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
-  #   container_name: datanode-2
-  #   hostname: datanode-2
-  #   ports:
-  #     - 50075:9864
-  #   environment:
-  #     - SERVICE_PRECONDITION=namenode:9870
-  #   env_file:
-  #     - ./hadoop/hadoop.env
-  #   deploy:
-  #     mode: global
-  #     restart_policy:
-  #       condition: on-failure
-  #   volumes:
-  #   - ../storage/hadoop/datanode-2:/hadoop/dfs/data
-  #   networks:
-  #     - confluent
+  resourcemanager:
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
+    container_name: resourcemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+    env_file:
+      - ./hadoop/hadoop.env
+    networks:
+      - confluent
 
-  # resourcemanager:
-  #   image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
-  #   container_name: resourcemanager
-  #   restart: always
-  #   environment:
-  #     SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
-  #   env_file:
-  #     - ./hadoop/hadoop.env
-  #   networks:
-  #     - confluent
-
-  # nodemanager1:
-  #   image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
-  #   container_name: nodemanager
-  #   restart: always
-  #   environment:
-  #     SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
-  #   env_file:
-  #     - ./hadoop/hadoop.env
-  #   networks:
-  #     - confluent
+  nodemanager1:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
+    container_name: nodemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    env_file:
+      - ./hadoop/hadoop.env
+    networks:
+      - confluent
 
   spark-master:
     image: bde2020/spark-master:3.0.0-hadoop3.2
     container_name: spark-master
-    # depends_on:
-    #   - namenode
-    #   - datanode-1
-      # - datanode-2
+    depends_on:
+      - namenode
+      - datanode-1
+      - datanode-2
     ports:
       - "8083:8080"
       - "7077:7077"
